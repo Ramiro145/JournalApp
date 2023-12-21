@@ -8,17 +8,17 @@ import { CheckingAuth } from "../ui/components/CheckingAuth";
 
 const router = createBrowserRouter([
   {
-    path: '/auth/*',
+    path: 'auth/*',
     element: <AuthRouter/>,
     children: AuthRoutes,
   },
   {
-    path:'/',
+    path:'/*',
     element:<JournalRouter/>,
     children:JournalRoutes,
   },
   {
-    path:'/*',
+    path:'*',
     element:<Navigate to={'/'}/>,
   }
 ])

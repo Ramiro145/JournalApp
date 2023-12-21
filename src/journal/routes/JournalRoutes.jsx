@@ -4,11 +4,11 @@ import { JournalPage } from "../pages/JournalPage";
 export const JournalRoutes = [
     {
       index: true,
-      path:'/*',
+      path:'/',
       element: <JournalPage />,
     },
     {
-      path: "/",
+      path: "/*",
       element: <Navigate to={"/"} />,
     },
   ];

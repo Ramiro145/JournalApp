@@ -1,48 +1,36 @@
-import { useEffect } from 'react';
-import { Navigate, redirect, useLocation, useNavigate } from 'react-router-dom';
-import { LoginPage } from '../auth/pages/LoginPage';
-import { RegisterPage } from '../auth/pages/RegisterPage';
-import { AuthRoutes } from '../auth/routes/AuthRoutes';
-import { useCheckAuth } from '../hooks/useCheckAuth';
-import { JournalPage } from '../journal/pages/JournalPage';
-import {JournalRoutes} from '../journal/routes/JournalRoutes'
-import { CheckingAuth } from '../ui/';
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { AuthRouter } from "../auth/routes/AuthRouter";
+import { AuthRoutes } from "../auth/routes/AuthRoutes";
+import { useCheckAuth } from "../hooks/useCheckAuth";
+import { JournalRouter } from "../journal/routes/JournalRouter";
+import { JournalRoutes } from "../journal/routes/JournalRoutes";
+import { CheckingAuth } from "../ui/components/CheckingAuth";
 
+const router = createBrowserRouter([
+  {
+    path: '/auth/*',
+    element: <AuthRouter/>,
+    children: AuthRoutes,
+  },
+  {
+    path:'/',
+    element:<JournalRouter/>,
+    children:JournalRoutes,
+  },
+  {
+    path:'/*',
+    element:<Navigate to={'/'}/>,
+  }
+])
 
-export const AppRouter =()=> {
-  
-    const {status} = useCheckAuth();
+export const AppRouter = () =>{
+  const {status} = useCheckAuth();
 
-    useEffect(() => {
-      if(status === 'authenticated'){
-        console.log(redirect)
-      }
-    
-    }, [status])
-    
+  if(status === 'checking'){
+    return <CheckingAuth/>
+  }
 
-    if(status === 'checking'){
-      return[
-        {
-          path:'*',
-          element: <CheckingAuth/>,
-        },
-      ];
-    }else{
-      {
-        if(status === 'authenticated'){
-          return[{
-            path: "/",
-            
-            children: JournalRoutes,
-          }]
-        }else if(status === 'not-authenticated'){
-          return[{
-            path: "/auth/*",
-            children: AuthRoutes,
-          }]
-        }
-      }
-    }
-    
+  return (
+    <RouterProvider router={router}/>
+  )
 }

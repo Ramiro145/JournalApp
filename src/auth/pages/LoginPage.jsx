@@ -8,15 +8,15 @@ import { checkingAuthentication, startGoogleSignIn, startLoginWithEmailPassword 
 import { useDispatch, useSelector } from 'react-redux';
 import { useCheckAuth } from '../../hooks/useCheckAuth';
 
+const formData = {
+    email:'',
+    password:''
+}
+
 export const LoginPage = () => {
 
     const {status, errorMessage} = useSelector(state => state.auth)
     const dispatch = useDispatch();
-
-    const formData = {
-        email:'',
-        password:''
-    }
 
     
     const {email, password, onInputChange, formState} = useForm(formData);
